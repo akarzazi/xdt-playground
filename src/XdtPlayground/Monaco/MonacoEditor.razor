@@ -1,0 +1,69 @@
+﻿@using  Monaco.Interop;
+@inject MonacoInterop MonacoInterop
+@inject ILogger<MonacoEditor> Logger
+
+<div @ref="monacoContainer" class="monaco-editor-container" style="height:100%" />
+
+@code
+{ 
+    private ElementReference monacoContainer;
+
+    private EditorContext _editor;
+
+    [Parameter]
+    public string Value { get; set; }
+
+    [Parameter]
+    public EventCallback<string> ValueChanged { get; set; }
+
+    [Parameter]
+    public string Language { get; set; }
+
+    [Parameter]
+    public Boolean ReadOnly { get; set; }
+
+    protected override void OnInitialized()
+    {
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var opts = new EditorOptions()
+            {
+                Language = Language,
+                Value = Value,
+                ReadOnly = ReadOnly,
+                AutomaticLayout = true,
+                Minimap = new MinimapOptions() { Enabled = false },
+                Scrollbar = new ScrollbarOptions()
+                {
+                    AlwaysConsumeMouseWheel = false,
+                    VerticalSliderSize = 14,
+                    VerticalScrollbarSize = 14
+                },
+                ScrollBeyondLastLine = false,
+            };
+
+            _editor = await MonacoInterop.CreateEditor(monacoContainer, opts);
+            _editor.OnValueChanged += OnValueChanged;
+        }
+    }
+
+    private void OnValueChanged(object sender, string newValue)
+    {
+        ValueChanged.InvokeAsync(newValue);
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (_editor == null)
+            return;
+
+        if (Value != _editor.CurrentValue)
+        {
+            await _editor.UpdateValue(Value);
+        }
+    }
+}

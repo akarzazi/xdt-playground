@@ -1,0 +1,7 @@
+﻿<?xml version="1.0"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <appSettings>
+    <add xdt:Locator="Condition(@key='Environment' or @key='WorkingDir')" 
+         xdt:Transform="RemoveAll"/>
+  </appSettings>
+</configuration>

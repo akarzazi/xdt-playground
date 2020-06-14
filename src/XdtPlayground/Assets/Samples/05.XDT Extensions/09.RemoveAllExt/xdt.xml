@@ -1,0 +1,10 @@
+﻿<?xml version="1.0"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform" xmlns:xdtExt="xdt-extensions" xml:space="preserve" >
+  <xdt:Import assembly="XdtExtensions"
+             namespace="XdtExtensions" />
+
+  <appSettings>
+   <does_not_matter 
+     xdt:Transform="RemoveAllExt(/configuration/appSettings/comment()[contains(.,'unwanted comment')])" />
+  </appSettings>
+</configuration>

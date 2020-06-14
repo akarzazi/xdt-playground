@@ -1,0 +1,14 @@
+﻿<?xml version="1.0"?>
+<configuration>
+  <appSettings>
+    <!-- existing comments -->
+    <add key="IsProduction" value="True" />
+    <add key="IsStaging" value="True" />
+
+    <!-- this unwanted comment will be removed -->
+
+    <add key="Environment" value="Dev" />
+
+    <!-- this unwanted comment will not be removed -->
+  </appSettings>
+</configuration>

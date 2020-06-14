@@ -1,0 +1,24 @@
+﻿<?xml version="1.0"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform" xmlns:xdtExt="xdt-extensions" xml:space="preserve" >
+  <xdt:Import assembly="XdtExtensions"
+             namespace="XdtExtensions" />
+
+  <appSettings>
+
+    <add key="NewNode" value="NewValue"
+     xdt:Locator="Match(key)" xdt:Transform="InsertExt">
+    <xdtExt:before>
+    <!--   Comments above  -->
+    </xdtExt:before>
+    </add>
+    
+    <!-- Aleardy exists. Will not be inserted -->
+    <add key="BatchSize" value="2000" 
+         xdt:Locator="Match(key)" xdt:Transform="InsertIfMissingExt">
+    <xdtExt:before>
+    <!--   Some comment  -->
+    </xdtExt:before>
+    </add>
+    
+  </appSettings>
+</configuration>

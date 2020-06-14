@@ -1,0 +1,12 @@
+﻿<?xml version="1.0"?>
+<configuration>
+  <system.web>
+    <compilation debug="true" strict="true" batch="true" />
+
+    <application coldstart="true" user="root">
+      <subtag>old content</subtag>
+      <subtag2>old content</subtag2>
+    </application>
+    
+  </system.web>
+</configuration>

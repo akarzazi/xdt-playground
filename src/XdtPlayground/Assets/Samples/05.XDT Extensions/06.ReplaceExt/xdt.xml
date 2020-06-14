@@ -1,0 +1,19 @@
+﻿<?xml version="1.0"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform" xmlns:xdtExt="xdt-extensions" xml:space="preserve" >
+  <xdt:Import assembly="XdtExtensions"
+             namespace="XdtExtensions" />
+  
+  <system.web>
+    
+    <application xdt:Transform="ReplaceExt" user="guest" type="web" >
+    <xdtExt:before>
+    <!--  Comments above  -->
+    </xdtExt:before>
+    <xdtExt:after>
+    <!--  Comments below  -->
+    </xdtExt:after>
+      <sub>new content</sub>
+    </application>
+
+  </system.web>
+</configuration>

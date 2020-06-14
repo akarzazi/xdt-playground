@@ -1,0 +1,7 @@
+﻿<?xml version="1.0"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <appSettings>
+    <add key="SiteStyle" value="dark"
+         xdt:Transform="InsertBefore(/configuration/appSettings/add[@key='Environment'])"/>
+  </appSettings>
+</configuration>

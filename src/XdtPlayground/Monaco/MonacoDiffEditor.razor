@@ -1,0 +1,33 @@
+﻿@using  Monaco.Interop;
+@inject MonacoInterop MonacoInterop
+@inject ILogger<MonacoEditor> Logger
+
+<div @ref="monacoContainer" class="monaco-editor-container" style="height:100%" />
+
+@code
+{
+    private ElementReference monacoContainer;
+    private DiffEditorContext _editor;
+
+    [Parameter]
+    public string Original { get; set; }
+
+    [Parameter]
+    public string Modified { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _editor = await MonacoInterop.CreateDiffEditor(monacoContainer, Original, Modified);
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (_editor == null)
+            return;
+
+        await _editor.SetDiffValue(Original, Modified);
+    }
+}

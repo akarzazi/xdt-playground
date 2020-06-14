@@ -1,0 +1,12 @@
+﻿<?xml version="1.0"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <system.web>
+    <!-- Add or updates all attributes-->
+    <application user="guest" newAttribute="value"
+    xdt:Transform="SetAttributes"  />
+
+    <!-- Add or updates specific attributes-->
+    <compilation  debug="false" strict="false" batch="false"
+    xdt:Transform="SetAttributes(debug,strict)" />
+  </system.web>
+</configuration>

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0"?>
+<configuration>
+  <appSettings>
+    <add key="IsStaging" value="True" />
+    <add key="Environment" value="Dev" />
+  </appSettings>
+</configuration>

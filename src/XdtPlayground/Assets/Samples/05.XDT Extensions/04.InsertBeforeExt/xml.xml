@@ -1,0 +1,8 @@
+﻿<?xml version="1.0"?>
+<configuration>
+  <appSettings>
+    <add key="BatchSize" value="100" />
+    <add key="IsSandboxed" value="True" />
+    <add key="Environment" value="Dev" />
+  </appSettings>
+</configuration>

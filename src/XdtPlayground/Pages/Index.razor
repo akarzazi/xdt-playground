@@ -1,0 +1,126 @@
+﻿@page "/"
+@using XdtPlayground.Monaco
+@inject ILogger<Index> _logger
+@inject NavigationManager NavManager
+
+<div class="xmlinput-section">
+    <div class="editor-column">
+        <h4>XML</h4>
+        <div class="editor-wrapper">
+            <MonacoEditor Value="@View.SourceXML" ValueChanged="onSourceChanged" Language="xml"></MonacoEditor>
+        </div>
+    </div>
+
+    <div class="editor-column">
+        <h4>XDT</h4>
+        <div class="editor-wrapper">
+            <MonacoEditor Value="@View.TransformXML" ValueChanged="onTransformChanged" Language="xml"></MonacoEditor>
+        </div>
+    </div>
+</div>
+
+<div class="control-section">
+    <pre class="validation-message">@View.Log</pre>
+</div>
+
+<div class="diff-result-section">
+    <h4>Result</h4>
+    <div class="diff-editor-wrapper">
+        <MonacoDiffEditor Original="@View.DiffSourceXML" Modified="@View.DiffResultXML"></MonacoDiffEditor>
+    </div>
+</div>
+
+@code {
+
+    XmlTransformView View = new XmlTransformView();
+    Action ApplyChangesDebounced;
+
+    protected override void OnInitialized()
+    {
+        ApplyChangesDebounced = FuncHelpers.Debounce(ApplyChanges, 400);
+
+        NavManager.LocationChanged += HandleLocationChanged;
+        HandleLocationChanged(null, null);
+    }
+
+    void HandleLocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        //Console.WriteLine("LocationChanged:" + NavManager.Uri);
+
+        if (NavManager.TryGetQueryString(Navigation.QUERY, out string rawQuery))
+        {
+            if (Navigation.TryParseQuery(rawQuery, out string xml, out string xdt))
+            {
+                View.SourceXML = xml;
+                View.TransformXML = xdt;
+                ApplyChangesDebounced();
+            }
+            else
+            {
+                _logger.LogError($"Bad query {NavManager.Uri}");
+                NavManager.NavigateTo("");
+                return;
+            }
+        }
+        else if (NavManager.TryGetQueryString(Navigation.SAMPLE, out string rawSample))
+        {
+            if (Navigation.TryParseSample(rawSample, out string xml, out string xdt))
+            {
+                View.SourceXML = xml;
+                View.TransformXML = xdt;
+
+                ApplyChanges();
+            }
+            else
+            {
+                _logger.LogError($"Bad Sample {NavManager.Uri}");
+                NavManager.NavigateTo("");
+                return;
+            }
+        }
+        else
+        {
+            _logger.LogInformation($"No param {NavManager.Uri}");
+            var sample = SampleRepository.DefaultSample;
+            View.SourceXML = sample.XML;
+            View.TransformXML = sample.XDT;
+
+            ApplyChanges();
+        }
+    }
+
+    void onSourceChanged(string newValue)
+    {
+        if (newValue == View.SourceXML)
+            return;
+
+        View.SourceXML = newValue;
+        SubmitChanges();
+    }
+
+    void onTransformChanged(string newValue)
+    {
+        if (newValue == View.TransformXML)
+            return;
+
+        View.TransformXML = newValue;
+        SubmitChanges();
+    }
+
+    void SubmitChanges()
+    {
+        //Console.WriteLine("navigate : " + Navigation.CreateQueryUri(View.SourceXML, View.TransformXML));
+        NavManager.NavigateTo(Navigation.CreateQueryUri(View.SourceXML, View.TransformXML));
+    }
+
+    void ApplyChanges()
+    {
+        View.ApplyTransform();
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NavManager.LocationChanged -= HandleLocationChanged;
+    }
+}

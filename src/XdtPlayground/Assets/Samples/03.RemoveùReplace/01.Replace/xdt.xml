@@ -1,0 +1,10 @@
+﻿<?xml version="1.0"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <system.web>
+    <!-- Replaces the whole tag -->
+    <application xdt:Transform="Replace" user="guest" type="web" >
+      <sub>new content</sub>
+    </application>
+
+  </system.web>
+</configuration>

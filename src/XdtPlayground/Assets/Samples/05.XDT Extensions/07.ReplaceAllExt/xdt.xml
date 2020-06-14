@@ -1,0 +1,13 @@
+﻿<?xml version="1.0"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform"  xmlns:xdtExt="xdt-extensions" xml:space="preserve" >
+  <xdt:Import assembly="XdtExtensions"
+             namespace="XdtExtensions" />
+  
+  <appSettings>
+    <add key="Environment" value="NewValue"
+        xdt:Locator="Match(key)" xdt:Transform="ReplaceAllExt">
+    <xdtExt:before>
+    <!--  Comment above  --></xdtExt:before>
+    </add>  
+  </appSettings>
+</configuration>

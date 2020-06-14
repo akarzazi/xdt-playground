@@ -1,0 +1,15 @@
+﻿<?xml version="1.0"?>
+<configuration>
+  <Section1>
+    <add key="WorkingDir" value="D://" />
+    <add key="Version" value="14" />
+    <add key="Environment" value="Staging" />
+    <object key="pop" />
+  </Section1>
+  <appSettings>
+    <connection key="" />
+    <add key="IsStaging" value="True" />
+    <add key="Environment" value="Dev" />
+    <add key="SiteStyle" value="dark" />
+  </appSettings>
+</configuration>

@@ -1,0 +1,27 @@
+﻿<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">XDT Playground</a>
+</div>
+
+
+<ul class="nav-root">
+    @foreach (var group in samplesByCategory)
+    {
+        <li class="nav-group-item">
+            <span class="nav-group-title">@group.Key</span>
+            <ul class="nav-group-resources">
+                @foreach (var sample in group)
+                {
+                    <li class="nav-resource-item">
+                        <NavLink class="nav-resource-link" href="@Navigation.CreateSampleUri(sample.Title)" Match="NavLinkMatch.All">
+                            @sample.DisplayTitle
+                        </NavLink>
+                    </li>
+                }
+            </ul>
+        </li>
+    }
+</ul>
+
+@code {
+    IReadOnlyCollection<IGrouping<string, Sample>> samplesByCategory = SampleRepository.GetSamplesByDisplayCategory();
+}
