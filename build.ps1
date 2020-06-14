@@ -24,7 +24,7 @@ if ($Npm) {
         Exit 1
     }
     pop-Location -PassThru
-    }
+}
 
 # ----------.NET BUILD------------
 Write-Host "Restoring all projects..." -ForegroundColor "Magenta"
@@ -55,4 +55,5 @@ if ($Publish) {
     Write-Host "Delete *.br , *.gz"
     Remove-Item $publishDir  -Recurse -Force -Include *.br , *.gz
 }
+
 Write-Host "Build Complete." -ForegroundColor "Green"
