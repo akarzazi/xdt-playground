@@ -40,17 +40,14 @@ if ($Publish) {
 
     mkdir -Force $publishDir | Out-Null
     Write-Host "Clearing existing $publishDir..." -NoNewline
-    Remove-Item  $publishDir -Recurse -Force
+    Get-ChildItem  $publishDir -Recurse | Remove-Item -Force -Recurse
     Write-Host "done." -ForegroundColor "Green"
 
     Write-Host "Publishing ..." -ForegroundColor "Magenta"
     dotnet build -c Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
 
-    Write-Host "Copy from $publishProfileOut to $publishDir" -ForegroundColor "Magenta"
-    Copy-Item -Path $publishProfileOut -Destination $publishDir -Recurse
-
-    #Write-Host "Delete dir '$publishDir\_framework\_bin' $" -ForegroundColor "Magenta"
-   # Remove-Item "$publishDir\_framework\_bin" -Recurse -Force
+    Write-Host "Copy from $publishProfileOut\* to $publishDir" -ForegroundColor "Magenta"
+    Copy-Item -Path $publishProfileOut\* -Destination $publishDir -Recurse
 
     Write-Host "Delete *.br , *.gz"
     Remove-Item $publishDir  -Recurse -Force -Include *.br , *.gz
