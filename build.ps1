@@ -1,6 +1,7 @@
 [CmdletBinding(PositionalBinding = $false)]
 param(
-    [switch] $Publish
+    [switch] $Publish,
+    [switch] $Npm
 )
 
 Write-Host "Run Parameters:" -ForegroundColor Cyan
@@ -8,8 +9,24 @@ Write-Host "  Publish: $Publish"
 Write-Host "  dotnet --version:" (dotnet --version)
 
 $publishDir = "$PSScriptRoot\docs"
-$publishProfileOut = "$PSScriptRoot\src\XdtPlayground\bin\publish-gh-pages"
+$publishProfileOut = "$PSScriptRoot\src\XdtPlayground\bin\publish-gh-pages\wwwroot"
+$npmBuildDir = "$PSScriptRoot\src\XdtPlayground\Monaco"
 
+# ----------NPM BUILD------------
+if ($Npm) {
+    Write-Host "npm build" -ForegroundColor "Magenta"
+    Push-Location -Path "$npmBuildDir" -PassThru
+    npm install
+    npm run build-prod
+    if ($LastExitCode -ne 0) {
+        Write-Host "Error with Build Monaco, aborting build." -Foreground "Red"
+        pop-Location -PassThru
+        Exit 1
+    }
+    pop-Location -PassThru
+    }
+
+# ----------.NET BUILD------------
 Write-Host "Restoring all projects..." -ForegroundColor "Magenta"
 dotnet restore
 Write-Host "Done restoring." -ForegroundColor "Green"
@@ -18,30 +35,24 @@ Write-Host "Building all projects..." -ForegroundColor "Magenta"
 dotnet build -c Release --no-restore
 Write-Host "Done building." -ForegroundColor "Green"
 
-# ----------TESTS------------
-if ($RunTest) {
-    Write-Host "Running tests: " -ForegroundColor "Magenta"
-    dotnet test -c Release 
-    if ($LastExitCode -ne 0) {
-        Write-Host "Error with tests, aborting build." -Foreground "Red"
-        Exit 1
-    }
-    Write-Host "Tests passed!" -ForegroundColor "Green"
-}
-
 # ----------PUBLISH------------
 if ($Publish) {
+
     mkdir -Force $publishDir | Out-Null
     Write-Host "Clearing existing $publishDir..." -NoNewline
-    Get-ChildItem $publishDir | Remove-Item
+    Remove-Item  $publishDir -Recurse -Force
     Write-Host "done." -ForegroundColor "Green"
 
     Write-Host "Publishing ..." -ForegroundColor "Magenta"
     dotnet build -c Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
 
-    Write-Host "Copy from $publishProfileOut to $publishDir"
-    Copy-Item -Path "$publishProfileOut\*" -Destination "$publishDir" -Recurse
+    Write-Host "Copy from $publishProfileOut to $publishDir" -ForegroundColor "Magenta"
+    Copy-Item -Path $publishProfileOut -Destination $publishDir -Recurse
 
-    dotnet pack ".\src\XdtPlayground\bin\publish-gh-pages\" --no-build -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -c Release /p:PackageOutputPath=$packageOutputFolder
+    #Write-Host "Delete dir '$publishDir\_framework\_bin' $" -ForegroundColor "Magenta"
+   # Remove-Item "$publishDir\_framework\_bin" -Recurse -Force
+
+    Write-Host "Delete *.br , *.gz"
+    Remove-Item $publishDir  -Recurse -Force -Include *.br , *.gz
 }
 Write-Host "Build Complete." -ForegroundColor "Green"
