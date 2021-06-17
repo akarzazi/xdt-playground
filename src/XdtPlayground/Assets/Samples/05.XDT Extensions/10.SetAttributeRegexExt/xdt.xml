@@ -1,0 +1,16 @@
+﻿<?xml version="1.0"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform" xmlns:xdtExt="xdt-extensions" xml:space="preserve" >
+  <xdt:Import assembly="XdtExtensions"
+             namespace="XdtExtensions" />
+  
+  <system.web>
+    <application xdt:Transform="SetAttributeRegexExt(myColors)">
+      <xdtExt:Pattern Replacement="${grp2}">
+      <![CDATA[
+      ^(?<grp1>[A-Za-z0-9\-_]*),(?<grp2>[A-Za-z0-9\-_]*),(?<grp3>[A-Za-z0-9\-_]*)$
+      ]]>
+      </xdtExt:Pattern>
+     </application>
+  </system.web>
+  
+</configuration>

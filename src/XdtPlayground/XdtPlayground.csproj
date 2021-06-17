@@ -21,6 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Samples\05.XDT Extensions\10.SetAttributeRegexExt\xdt.xml" />
+    <None Remove="Assets\Samples\05.XDT Extensions\10.SetAttributeRegexExt\xml.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Build" Version="3.2.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="3.2.0" PrivateAssets="all" />
@@ -29,7 +34,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="XDT.Extensions" Version="1.0.6" />
+    <PackageReference Include="XDT.Extensions" Version="1.1.0" />
   </ItemGroup>
 
 </Project>
